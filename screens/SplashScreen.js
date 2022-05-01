@@ -8,22 +8,30 @@ import {
    StatusBar,
    Image
 } from 'react-native';
+
 import {LinearGradient} from 'expo-linear-gradient';
 import Ionicons from '@expo/vector-icons/Ionicons';
-const SplashScreen = () =>{
+import * as Animatable from 'react-native-animatable';
+const SplashScreen = ({navigation}) =>{
    return ( 
       <View style={styles.container}>
          <View style={styles.header}>
-            <Image source={require('../assets/logo.png')}
-               style={styles.logo}
-               resizeMode="stretch"
+            <Animatable.Image 
+                animation="bounceIn"
+                duraton="1500"
+                source={require('../assets/logo.png')}
+                style={styles.logo}
+                resizeMode="stretch"
             />
          </View>
-         <View style={styles.footer}>
-            <Text style={styles.title}>Happy Shopping with Sourcers!</Text>
+         <Animatable.View 
+            style={styles.footer}
+            animation="fadeInUpBig"
+        >
+            <Text style={styles.title}>Happy Purchasing with Sourcers!</Text>
             <Text style={styles.text}>Sign In To Account!</Text>
             <View style={styles.button}>
-                <TouchableOpacity >
+                <TouchableOpacity onPress={() => navigation.navigate('SignInScreen')}>
                     <LinearGradient
                         colors={['#A17818', '#A17818']}
                         style={styles.signIn}
@@ -33,7 +41,7 @@ const SplashScreen = () =>{
                     </LinearGradient>
                 </TouchableOpacity>
             </View>
-         </View>
+         </Animatable.View>
       </View>
     );
 }
