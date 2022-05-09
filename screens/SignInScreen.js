@@ -12,9 +12,15 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import * as Animatable from "react-native-animatable";
-import axios from 'axios';
+import axios from "axios";
+// import { AsyncStorage } from 'react-native';
+
 
 const SignInScreen = ({ navigation }) => {
+  const [errors, setError] = React.useState({
+    email: "",
+    password: "",
+  });
   const [data, setData] = React.useState({
     email: "",
     password: "",
@@ -50,19 +56,35 @@ const SignInScreen = ({ navigation }) => {
     });
   };
 
-  const HandleLogin = ()=>{
-      console.log(data.email,data.password);
-      axios.post('http://fyp.local/api/login', {
-        email: "sibs@mail.com",
-        password: "123456789"
+  const HandleLogin = () => {
+    console.log(data.email, data.password);
+    axios
+      .post("http://192.168.1.3/fyp/public/api/login", {
+        email: data.email,
+        password: data.password,
       })
       .then(function (response) {
-        console.log('its working',response);
+        console.log(response.data);
+        const token = response.data.data.token;
+        // storeData(token);
+        // const storeData = async (token) => {
+        //   try {
+        //     const jsonValue = JSON.stringify(token)
+        //     await AsyncStorage.setItem('token', jsonValue)
+        //   } catch (e) {
+        //     console.log(e);
+        //   }
+        // }
+        navigation.navigate("HomeScreen");
       })
       .catch(function (error) {
-        console.log(error);
+        setError({
+          ...errors,
+          email: error.response.data.errors["email"],
+          password: error.response.data.errors["password"],
+        });
       });
-  }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -80,7 +102,10 @@ const SignInScreen = ({ navigation }) => {
             onChangeText={(val) => setEmailData(val)}
           />
         </View>
-        <Text style={[styles.text_footer, { marginTop: 35 }]}>Password</Text>
+        {errors.email ? (
+          <Text style={{ color: "#FF0000" }}>{errors.email}</Text>
+        ) : null}
+        <Text style={[styles.text_footer, { marginTop: 15 }]}>Password</Text>
         <View style={styles.action}>
           <Ionicons name="lock-closed-outline" size={20} color="black" />
           <TextInput
@@ -91,6 +116,7 @@ const SignInScreen = ({ navigation }) => {
             autoCapitalize="none"
             onChangeText={(val) => handlePasswordChange(val)}
           />
+
           {data.secureTextEntry ? (
             <TouchableOpacity onPress={updateSecureTextEntry}>
               <Ionicons
@@ -105,9 +131,17 @@ const SignInScreen = ({ navigation }) => {
             </TouchableOpacity>
           )}
         </View>
+        {errors.password ? (
+          <Text style={{ color: "#FF0000" }}>{errors.password}</Text>
+        ) : null}
         <View style={styles.button}>
-          <LinearGradient colors={["#A17818", "#A17818"]} style={styles.signIn} >
-            <Text style={[styles.textSign, { color: "#fff" }]}  onPress={HandleLogin}>Sign In</Text>
+          <LinearGradient colors={["#A17818", "#A17818"]} style={styles.signIn}>
+            <Text
+              style={[styles.textSign, { color: "#fff" }]}
+              onPress={HandleLogin}
+            >
+              Sign In
+            </Text>
           </LinearGradient>
           <TouchableOpacity
             style={[
