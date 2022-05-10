@@ -13,7 +13,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import * as Animatable from "react-native-animatable";
 import axios from "axios";
-// import { AsyncStorage } from 'react-native';
+import AsyncStorage  from '@react-native-async-storage/async-storage';
 
 
 const SignInScreen = ({ navigation }) => {
@@ -55,26 +55,28 @@ const SignInScreen = ({ navigation }) => {
       secureTextEntry: !data.secureTextEntry,
     });
   };
+  // adding fun
+  const storeData = async (token) => {
+    try {
+      const jsonValue = JSON.stringify(token)
+      await AsyncStorage.setItem('token', jsonValue)
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   const HandleLogin = () => {
     console.log(data.email, data.password);
     axios
-      .post("http://192.168.1.3/fyp/public/api/login", {
+      .post("http://192.168.1.8/fyp/public/api/login", {
         email: data.email,
         password: data.password,
       })
       .then(function (response) {
         console.log(response.data);
         const token = response.data.data.token;
-        // storeData(token);
-        // const storeData = async (token) => {
-        //   try {
-        //     const jsonValue = JSON.stringify(token)
-        //     await AsyncStorage.setItem('token', jsonValue)
-        //   } catch (e) {
-        //     console.log(e);
-        //   }
-        // }
+        storeData(token);
+       
         navigation.navigate("HomeScreen");
       })
       .catch(function (error) {
@@ -83,6 +85,7 @@ const SignInScreen = ({ navigation }) => {
           email: error.response.data.errors["email"],
           password: error.response.data.errors["password"],
         });
+        // console.log("HHHHH", error);
       });
   };
   return (
