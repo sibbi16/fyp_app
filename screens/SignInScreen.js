@@ -81,6 +81,7 @@ const SignInScreen = ({ navigation }) => {
         navigation.navigate("HomeScreen");
       })
       .catch(function (error) {
+        console.log(error.response.data)
         setError({
           ...errors,
           email: error.response.data.errors["email"],
@@ -168,6 +169,30 @@ const SignInScreen = ({ navigation }) => {
               Sign Up
             </Text>
           </TouchableOpacity>
+          {/* adding temporary button */}
+          <TouchableOpacity
+            style={[
+              styles.signIn,
+              {
+                borderColor: "#A17818",
+                borderWidth: 1,
+                marginTop: 15,
+              },
+            ]}
+            onPress={() => navigation.navigate("HomeScreen")}
+          >
+            <Text
+              style={[
+                styles.textSign,
+                {
+                  color: "#A17818",
+                },
+              ]}
+            >
+              Go to Home page temporary
+            </Text>
+          </TouchableOpacity>
+          {/* button end here it must be removed */}
         </View>
       </Animatable.View>
     </View>
