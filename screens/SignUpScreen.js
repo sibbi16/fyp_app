@@ -15,6 +15,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import * as Animatable from "react-native-animatable";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { BaseUrl } from "./Urls";
 
 const SignUpScreen = ({ navigation }) => {
   const [errors, setError] = React.useState({
@@ -115,7 +116,7 @@ const SignUpScreen = ({ navigation }) => {
   // saving data to database
   const HandleRegister = () => {
     axios
-      .post("http://192.168.1.8/fyp/public/api/register", {
+      .post(`${BaseUrl}/register`, {
         fname: data.fname,
         lname: data.lname,
         email: data.email,

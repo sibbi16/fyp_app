@@ -14,6 +14,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import * as Animatable from "react-native-animatable";
 import axios from "axios";
 import AsyncStorage  from '@react-native-async-storage/async-storage';
+import { BaseUrl } from "./Urls";
 
 
 const SignInScreen = ({ navigation }) => {
@@ -68,7 +69,7 @@ const SignInScreen = ({ navigation }) => {
   const HandleLogin = () => {
     console.log(data.email, data.password);
     axios
-      .post("http://192.168.1.8/fyp/public/api/login", {
+      .post(`${BaseUrl}/login`, {
         email: data.email,
         password: data.password,
       })
@@ -85,7 +86,6 @@ const SignInScreen = ({ navigation }) => {
           email: error.response.data.errors["email"],
           password: error.response.data.errors["password"],
         });
-        // console.log("HHHHH", error);
       });
   };
   return (
