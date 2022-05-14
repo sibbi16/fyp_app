@@ -5,17 +5,104 @@ import {
   TouchableOpacity,
   TextInput,
   StyleSheet,
-  StatusBar,
+  FlatList,
   Image,
   ScrollView,
+  Dimensions,
   Alert,
   SafeAreaView,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
-// import { SafeAreaView } from "react-native-safe-area-context";
+const { width } = Dimensions.get("screen");
+const cardWidth = width / 2 - 20;
+import Categories from "../data/Categories";
+import Products from "../data/Products";
 
 const HomeScreen = () => {
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
+  const ListCategories = () => {
+    return (
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.categoriesListContainer}
+      >
+        {Categories.map((category, index) => (
+          <TouchableOpacity
+            key={index}
+            activeOpacity={0.8}
+            onPress={() => setSelectedCategoryIndex(index)}
+          >
+            <View
+              style={[
+                styles.categoryBtn,
+                {
+                  backgroundColor:
+                    selectedCategoryIndex == index ? "#A17818" : "#E5E5E5",
+                },
+              ]}
+            >
+              <View>
+                <Image
+                  source={category.image}
+                  style={{
+                    width: 35,
+                    height: 35,
+                    resizeMode: "cover",
+                    borderRadius: 30,
+                  }}
+                />
+              </View>
+              <View>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    marginLeft: 10,
+                    color: selectedCategoryIndex == index ? "#fff" : "#A17818",
+                  }}
+                >
+                  {category.name}
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    );
+  };
+  const Card = ({ product }) => {
+    return (
+      <View style={styles.card}>
+        <View style={{ alignItems: "center", top: -40 }}>
+          <Image
+            source={product.item.image}
+            style={{ height: 120, width: 120, borderRadius: 50 }}
+          />
+          <Text
+            style={{ fontSize: 18, fontWeight: "bold", marginVertical: 10 }}
+          >
+            {product.item.name}
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+            marginHorizontal: 20,
+          }}
+        >
+          <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+            {product.item.price}/Rs
+          </Text>
+          <Text style={styles.addToCartBtn}>
+            <TouchableOpacity>
+              <Ionicons name="add-outline" size={28} color="#fff"></Ionicons>
+            </TouchableOpacity>
+          </Text>
+        </View>
+      </View>
+    );
+  };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <View style={styles.header}>
@@ -43,16 +130,25 @@ const HomeScreen = () => {
         }}
       >
         <View style={styles.inputContainer}>
-        <Ionicons name="search-outline" size={20} color="black"></Ionicons>
+          <Ionicons name="search-outline" size={20} color="black"></Ionicons>
           <TextInput
             style={{ flex: 1, fontSize: 18 }}
             placeholder="Search for food"
           />
         </View>
         <View style={styles.sortBtn}>
-        <Ionicons name="filter-outline" size={20} color="white"></Ionicons>
+          <Ionicons name="filter-outline" size={20} color="white"></Ionicons>
         </View>
       </View>
+      <View>
+        <ListCategories />
+      </View>
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        numColumns={2}
+        data={Products}
+        renderItem={(item) => <Card product={item} />}
+      />
     </SafeAreaView>
   );
 };
@@ -107,7 +203,7 @@ const styles = StyleSheet.create({
   },
   card: {
     height: 220,
-    // width: cardWidth,
+    width: cardWidth,
     marginHorizontal: 10,
     marginBottom: 20,
     marginTop: 50,
@@ -116,10 +212,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   addToCartBtn: {
-    height: 30,
-    width: 30,
+    height: 28,
+    width: 28,
     borderRadius: 20,
-    // backgroundColor: COLORS.primary,
+    backgroundColor: "#A17818",
     justifyContent: "center",
     alignItems: "center",
   },
