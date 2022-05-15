@@ -16,7 +16,7 @@ import Products from "../data/Products";
 
 const CartScreen = ({navigation}) => {
   const CartCard = ({ product }) => {
-    console.log(product);
+   //  console.log(product);
     return (
       <View style={styles.cartCard}>
         <Image source={product.image} style={{ height: 80, width: 80 }} />

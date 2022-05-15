@@ -14,7 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const DetailScreen = ({ route, navigation }) => {
   const product = route.params.product;
-  console.log(product);
+  // console.log(product);
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
       <View style={styles.header}>
