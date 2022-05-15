@@ -83,13 +83,13 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.card}>
           <View style={{ alignItems: "center", top: -40 }}>
             <Image
-              source={product.item.image}
+              source={product.image}
               style={{ height: 120, width: 120, borderRadius: 50 }}
             />
             <Text
               style={{ fontSize: 18, fontWeight: "bold", marginVertical: 10 }}
             >
-              {product.item.name}
+              {product.name}
             </Text>
           </View>
           <View
@@ -100,7 +100,7 @@ const HomeScreen = ({ navigation }) => {
             }}
           >
             <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-              {product.item.price}/Rs
+              {product.price}/Rs
             </Text>
             <Text style={styles.addToCartBtn}>
               <TouchableOpacity>
@@ -156,7 +156,7 @@ const HomeScreen = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
         numColumns={2}
         data={Products}
-        renderItem={(item) => <Card product={item} />}
+        renderItem={({item}) => <Card product={item} />}
       />
     </SafeAreaView>
   );

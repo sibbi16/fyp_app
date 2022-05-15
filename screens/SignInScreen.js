@@ -6,7 +6,6 @@ import {
   TextInput,
   Platform,
   StyleSheet,
-  StatusBar,
   Alert,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
@@ -128,11 +127,11 @@ const SignInScreen = ({ navigation }) => {
                 name="eye-off-outline"
                 size={20}
                 color="black"
-              ></Ionicons>
+              />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={updateSecureTextEntry}>
-              <Ionicons name="eye-outline" size={20} color="black"></Ionicons>
+              <Ionicons name="eye-outline" size={20} color="black"/>
             </TouchableOpacity>
           )}
         </View>

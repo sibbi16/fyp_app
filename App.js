@@ -8,6 +8,7 @@ import SignUpScreen from './screens/SignUpScreen';
 import HomeScreen from './screens/HomeScreen';
 import Profile from './screens/Profile';
 import DetailScreen from './screens/DetailScreen';
+import CartScreen from './screens/CartScreen';
 import BottomNavigation from './nagivation/BottomNavigation';
 
 
@@ -23,6 +24,7 @@ export default function App() {
       <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
       <Stack.Screen name="HomeScreen" component={BottomNavigation} />
       <Stack.Screen name="DetailScreen" component={DetailScreen} />
+      <Stack.Screen name="CartScreen" component={CartScreen} />
       <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
   </NavigationContainer>

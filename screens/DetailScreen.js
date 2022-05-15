@@ -3,13 +3,9 @@ import {
   View,
   Text,
   TouchableOpacity,
-  TextInput,
-  Platform,
   StyleSheet,
-  StatusBar,
   ScrollView,
   Image,
-  Alert,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -27,7 +23,7 @@ const DetailScreen = ({ route, navigation }) => {
           size={28}
           color="#000"
           onPress={() => navigation.goBack()}
-        ></Ionicons>
+        />
         <Text style={{ fontSize: 20, fontWeight: "bold", paddingLeft: 10 }}>
           Details
         </Text>
@@ -41,7 +37,7 @@ const DetailScreen = ({ route, navigation }) => {
           }}
         >
           <Image
-            source={product.item.image}
+            source={product.image}
             style={{ height: 220, width: 220, borderRadius: 100 }}
           />
         </View>
@@ -54,14 +50,14 @@ const DetailScreen = ({ route, navigation }) => {
             }}
           >
             <Text style={{ fontSize: 25, color: "#fff", fontWeight: "bold" }}>
-              {product.item.name}
+              {product.name}
             </Text>
             <View style={styles.iconContainer}>
               <Ionicons
                 name="heart-outline"
                 size={25}
                 color="#A17818"
-              ></Ionicons>
+              />
             </View>
           </View>
           <Text style={styles.detailsText}>

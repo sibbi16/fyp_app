@@ -14,6 +14,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import HomeScreen from "../screens/HomeScreen";
 import Profile from "../screens/Profile";
+import CartScreen from "../screens/CartScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -54,7 +55,7 @@ const BottomNavigation = () => {
       />
        <Tab.Screen
         name="Cart"
-        component={HomeScreen}
+        component={CartScreen}
         options={{
          tabBarLabel:({ focused,color })=>(<Text style={{color:focused?"#A17818":"#696969"}}>Cart</Text>),
           tabBarIcon: ({focused}) => (
