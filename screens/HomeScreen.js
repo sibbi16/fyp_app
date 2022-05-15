@@ -9,7 +9,7 @@ import {
   Image,
   ScrollView,
   Dimensions,
-  Alert,
+  TouchableHighlight,
   SafeAreaView,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -17,8 +17,9 @@ const { width } = Dimensions.get("screen");
 const cardWidth = width / 2 - 20;
 import Categories from "../data/Categories";
 import Products from "../data/Products";
+import { NavigationContainer } from "@react-navigation/native";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
   const ListCategories = () => {
     return (
@@ -72,35 +73,43 @@ const HomeScreen = () => {
   };
   const Card = ({ product }) => {
     return (
-      <View style={styles.card}>
-        <View style={{ alignItems: "center", top: -40 }}>
-          <Image
-            source={product.item.image}
-            style={{ height: 120, width: 120, borderRadius: 50 }}
-          />
-          <Text
-            style={{ fontSize: 18, fontWeight: "bold", marginVertical: 10 }}
+      <TouchableHighlight
+        underlayColor="#fff"
+        activeOpacity={0.9}
+        onPress={() =>
+          navigation.navigate("DetailScreen", { product: product })
+        }
+      >
+        <View style={styles.card}>
+          <View style={{ alignItems: "center", top: -40 }}>
+            <Image
+              source={product.item.image}
+              style={{ height: 120, width: 120, borderRadius: 50 }}
+            />
+            <Text
+              style={{ fontSize: 18, fontWeight: "bold", marginVertical: 10 }}
+            >
+              {product.item.name}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-around",
+              marginHorizontal: 20,
+            }}
           >
-            {product.item.name}
-          </Text>
+            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+              {product.item.price}/Rs
+            </Text>
+            <Text style={styles.addToCartBtn}>
+              <TouchableOpacity>
+                <Ionicons name="add-outline" size={28} color="#fff"></Ionicons>
+              </TouchableOpacity>
+            </Text>
+          </View>
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-around",
-            marginHorizontal: 20,
-          }}
-        >
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-            {product.item.price}/Rs
-          </Text>
-          <Text style={styles.addToCartBtn}>
-            <TouchableOpacity>
-              <Ionicons name="add-outline" size={28} color="#fff"></Ionicons>
-            </TouchableOpacity>
-          </Text>
-        </View>
-      </View>
+      </TouchableHighlight>
     );
   };
   return (

@@ -133,6 +133,7 @@ const SignUpScreen = ({ navigation }) => {
         navigation.navigate("HomeScreen");
       })
       .catch(function (error) {
+        Alert.alert("Incorrect data");
         setError({
           ...errors,
           fname: error.response.data.errors["fname"],

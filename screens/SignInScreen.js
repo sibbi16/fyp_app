@@ -81,7 +81,8 @@ const SignInScreen = ({ navigation }) => {
         navigation.navigate("HomeScreen");
       })
       .catch(function (error) {
-        console.log(error.response.data)
+        console.log(error.response.data);
+        Alert.alert("Incorrect data");
         setError({
           ...errors,
           email: error.response.data.errors["email"],

@@ -35,7 +35,11 @@ const Profile = ({navigation}) => {
       console.log(typeof token ,token);
       axios
         .post(`${BaseUrl}/logout`, {
-          headers: { Authorization: `Bearer ${token}` },
+          // headers: { Authorization: `Bearer ${token}` },
+          headers:{
+            "Content-Type": "application/json",
+            "X-Auth-Token": `${token}`,
+          }
         })
         .then(function (response) {
           console.log(response.data);
