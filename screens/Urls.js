@@ -1,1 +1,1 @@
-export const BaseUrl = "http://192.168.10.11/fyp/public/api";
+export const BaseUrl = "http://10.120.140.27/fyp/public/api";

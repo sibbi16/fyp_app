@@ -13,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const DetailScreen = ({ route, navigation }) => {
+  const homeUrl = "http://10.120.140.27/fyp/public/storage";
   const product = route.params.product;
   // console.log(product);
   return (
@@ -37,7 +38,7 @@ const DetailScreen = ({ route, navigation }) => {
           }}
         >
           <Image
-            source={product.image}
+             source={{uri:`${homeUrl}/${product.image.path}`}}
             style={{ height: 220, width: 220, borderRadius: 100 }}
           />
         </View>

@@ -15,11 +15,47 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 const { width } = Dimensions.get("screen");
 const cardWidth = width / 2 - 20;
-import Categories from "../data/Categories";
-import Products from "../data/Products";
 import { NavigationContainer } from "@react-navigation/native";
+import { BaseUrl } from "./Urls";
+import axios from "axios";
+
 
 const HomeScreen = ({ navigation }) => {
+  const homeUrl = "http://10.120.140.27/fyp/public/storage";
+  React.useEffect(()=>{
+    getCategories();
+    getProducts();
+    console.log(Products)
+
+  },[]);
+  const [Categories,setCategories] =React.useState([]); 
+  const [Products,setProducts] =React.useState([]); 
+  // getting categories
+  function getCategories(){
+      axios.get(`${BaseUrl}/categories`)
+      .then(function (response) {
+        setCategories(response.data.categories);
+        // handle success
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error.response.data);
+      })
+  }
+
+  // getting products
+  function getProducts(){
+    axios.get(`${BaseUrl}/products`)
+    .then(function (response) {
+      // console.log('product',response.data);
+      setProducts(response.data.products)
+      // handle success
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error.response.data);
+    })
+}
   const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
   const ListCategories = () => {
     return (
@@ -44,8 +80,8 @@ const HomeScreen = ({ navigation }) => {
               ]}
             >
               <View>
-                <Image
-                  source={category.image}
+              <Image
+                  source={{uri:`${homeUrl}/${category.image.path}`}}
                   style={{
                     width: 35,
                     height: 35,
@@ -72,6 +108,7 @@ const HomeScreen = ({ navigation }) => {
     );
   };
   const Card = ({ product }) => {
+    console.log(product);
     return (
       <TouchableHighlight
         underlayColor="#fff"
@@ -83,7 +120,7 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.card}>
           <View style={{ alignItems: "center", top: -40 }}>
             <Image
-              source={product.image}
+              source={{uri:`${homeUrl}/${product.image.path}`}}
               style={{ height: 120, width: 120, borderRadius: 50 }}
             />
             <Text
@@ -156,6 +193,7 @@ const HomeScreen = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
         numColumns={2}
         data={Products}
+        keyExtractor={(item)=>item.id}
         renderItem={({item}) => <Card product={item} />}
       />
     </SafeAreaView>
