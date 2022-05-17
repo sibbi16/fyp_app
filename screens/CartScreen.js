@@ -14,7 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Products from "../data/Products";
 import { useDispatch, useSelector } from "react-redux";
-import { homeUrl } from '../screens/Urls';
+import { homeUrl } from "../screens/Urls";
 import {
   increment,
   decrement,
@@ -30,7 +30,10 @@ const CartScreen = ({ navigation }) => {
   const CartCard = ({ product }) => {
     return (
       <View style={styles.cartCard}>
-        <Image source={{ uri: `${homeUrl}/${product.image.path}` }} style={{ height: 80, width: 80 }} />
+        <Image
+          source={{ uri: `${homeUrl}/${product.image.path}` }}
+          style={{ height: 80, width: 80 }}
+        />
         <View
           style={{
             height: 100,
@@ -65,6 +68,16 @@ const CartScreen = ({ navigation }) => {
               }}
             >
               <Ionicons name="add-outline" size={25} color="white" />
+            </TouchableOpacity>
+          </View>
+          <View style={{top:-20,right:-20,position:"absolute"}}>
+            <TouchableOpacity
+              style={{}}
+              onPress={() => {
+                dispatch(removeItem(product.id));
+              }}
+            >
+              <Ionicons name="close-outline" size={30} color="red" />
             </TouchableOpacity>
           </View>
         </View>
@@ -107,6 +120,7 @@ const CartScreen = ({ navigation }) => {
             </View>
             <View style={{ marginHorizontal: 30 }}>
               <TouchableOpacity
+                onPress={() => navigation.navigate("Checkout")}
                 style={{
                   width: "100%",
                   height: 50,
@@ -122,7 +136,7 @@ const CartScreen = ({ navigation }) => {
                     fontSize: 20,
                   }}
                 >
-                  Place Order
+                  Proceed
                 </Text>
               </TouchableOpacity>
             </View>

@@ -13,6 +13,7 @@ import BottomNavigation from "./nagivation/BottomNavigation";
 import store from "./redux/Store";
 import { Provider } from "react-redux";
 import { configureStore } from '@reduxjs/toolkit'
+import Checkout from "./screens/Checkout";
 
 
 const Stack = createNativeStackNavigator();
@@ -29,17 +30,10 @@ export default function App() {
           <Stack.Screen name="DetailScreen" component={DetailScreen} />
           <Stack.Screen name="CartScreen" component={CartScreen} />
           <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="Checkout" component={Checkout} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
   );
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-// });

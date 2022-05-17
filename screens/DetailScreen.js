@@ -31,7 +31,7 @@ const DetailScreen = ({ route, navigation }) => {
           Details
         </Text>
       </View>
-    <Toast ref={(ref)=>{Toast.setRef(ref)}} style={{top:50,zIndex:4,paddingTop:30}}/>
+    <Toast refs={(refs)=>{Toast.setRef(refs)}} style/>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{

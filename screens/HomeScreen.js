@@ -118,10 +118,10 @@ const HomeScreen = ({ navigation }) => {
           <View style={{ alignItems: "center", top: -40 }}>
             <Image
               source={{uri:`${homeUrl}/${product.image.path}`}}
-              style={{ height: 120, width: 120, borderRadius: 50 }}
+              style={{ height: 110, width: 110, borderRadius: 50 }}
             />
             <Text
-              style={{ fontSize: 18, fontWeight: "bold", marginVertical: 10 }}
+              style={{ fontSize: 18, fontWeight: "bold", marginVertical: 1 }}
             >
               {product.name}
             </Text>
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   card: {
-    height: 220,
+    height: 180,
     width: cardWidth,
     marginHorizontal: 10,
     marginBottom: 20,
