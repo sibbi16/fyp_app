@@ -25,8 +25,6 @@ const HomeScreen = ({ navigation }) => {
   React.useEffect(()=>{
     getCategories();
     getProducts();
-    console.log(Products)
-
   },[]);
   const [Categories,setCategories] =React.useState([]); 
   const [Products,setProducts] =React.useState([]); 
@@ -108,7 +106,6 @@ const HomeScreen = ({ navigation }) => {
     );
   };
   const Card = ({ product }) => {
-    console.log(product);
     return (
       <TouchableHighlight
         underlayColor="#fff"

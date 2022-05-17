@@ -13,10 +13,21 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Products from "../data/Products";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  increment,
+  decrement,
+  clear,
+  removeItem,
+} from "../redux/cart/CartSlice";
+import { cartTotalPriceSelector } from "../redux/Selector";
 
-const CartScreen = ({navigation}) => {
+const CartScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+  console.log(cart);
+  const totalPrice = useSelector(cartTotalPriceSelector);
   const CartCard = ({ product }) => {
-   //  console.log(product);
     return (
       <View style={styles.cartCard}>
         <Image source={product.image} style={{ height: 80, width: 80 }} />
@@ -37,10 +48,24 @@ const CartScreen = ({navigation}) => {
           </Text>
         </View>
         <View style={{ marginRight: 20, alignItems: "center" }}>
-          <Text style={{ fontWeight: "bold", fontSize: 18 }}>3</Text>
+          <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+            {product.quantity}
+          </Text>
           <View style={styles.actionBtn}>
-          <Ionicons name="remove-outline" size={25} color="white" />
-          <Ionicons name="add-outline" size={25} color="white" />
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(decrement(product.id));
+              }}
+            >
+              <Ionicons name="remove-outline" size={25} color="white" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(increment(product.id));
+              }}
+            >
+              <Ionicons name="add-outline" size={25} color="white" />
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -60,7 +85,8 @@ const CartScreen = ({navigation}) => {
       <FlatList
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 80 }}
-        data={Products}
+        data={cart}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => <CartCard product={item} />}
         ListFooterComponentStyle={{ paddingHorizontal: 20, marginTop: 20 }}
         ListFooterComponent={() => (
@@ -75,28 +101,30 @@ const CartScreen = ({navigation}) => {
               <Text style={{ fontSize: 18, fontWeight: "bold" }}>
                 Total Price
               </Text>
-              <Text style={{ fontSize: 18, fontWeight: "bold" }}>5000 RS</Text>
+              <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                {totalPrice}
+              </Text>
             </View>
             <View style={{ marginHorizontal: 30 }}>
-            <TouchableOpacity
-              style={{
-                width: "100%",
-                height: 50,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "#A17818",
-                borderRadius: 10,
-              }}
-            >
-              <Text
+              <TouchableOpacity
                 style={{
-                  color: "#fff",
-                  fontSize: 20,
+                  width: "100%",
+                  height: 50,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#A17818",
+                  borderRadius: 10,
                 }}
               >
-                Place Order
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontSize: 20,
+                  }}
+                >
+                  Place Order
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         )}

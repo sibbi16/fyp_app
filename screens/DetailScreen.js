@@ -7,17 +7,20 @@ import {
   ScrollView,
   Image,
 } from "react-native";
+import { addToCart } from "../redux/cart/CartSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const DetailScreen = ({ route, navigation }) => {
+  const dispatch = useDispatch();
   const homeUrl = "http://10.120.140.27/fyp/public/storage";
   const product = route.params.product;
   // console.log(product);
   return (
-    <SafeAreaView style={{ backgroundColor: "#fff" }}>
+    <SafeAreaView style={{ backgroundColor: "#fff", flex: 1 }}>
       <View style={styles.header}>
         <Ionicons
           name="arrow-back-outline"
@@ -38,7 +41,7 @@ const DetailScreen = ({ route, navigation }) => {
           }}
         >
           <Image
-             source={{uri:`${homeUrl}/${product.image.path}`}}
+            source={{ uri: `${homeUrl}/${product.image.path}` }}
             style={{ height: 220, width: 220, borderRadius: 100 }}
           />
         </View>
@@ -54,22 +57,16 @@ const DetailScreen = ({ route, navigation }) => {
               {product.name}
             </Text>
             <View style={styles.iconContainer}>
-              <Ionicons
-                name="heart-outline"
-                size={25}
-                color="#A17818"
-              />
+              <Ionicons name="heart-outline" size={25} color="#A17818" />
             </View>
           </View>
-          <Text style={styles.detailsText}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries.
-          </Text>
-          <View style={{ marginTop: 40, marginBottom: 40 }}>
+          <Text style={styles.detailsText}>{product.description}</Text>
+          <View style={{ marginTop: 40, marginBottom: 80 }}>
             <TouchableOpacity
+              onPress={() => {
+                // console.log(product)
+                dispatch(addToCart(product));
+              }}
               style={{
                 width: "100%",
                 height: 50,
@@ -104,6 +101,7 @@ const styles = StyleSheet.create({
   },
   details: {
     paddingHorizontal: 20,
+    flex: 2,
     paddingTop: 40,
     paddingBottom: 60,
     backgroundColor: "#A17818",
