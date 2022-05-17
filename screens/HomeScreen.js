@@ -17,11 +17,11 @@ const { width } = Dimensions.get("screen");
 const cardWidth = width / 2 - 20;
 import { NavigationContainer } from "@react-navigation/native";
 import { BaseUrl } from "./Urls";
+import { homeUrl } from "./Urls";
 import axios from "axios";
 
 
 const HomeScreen = ({ navigation }) => {
-  const homeUrl = "http://10.120.140.27/fyp/public/storage";
   React.useEffect(()=>{
     getCategories();
     getProducts();

@@ -9,14 +9,13 @@ import {
 } from "react-native";
 import { addToCart } from "../redux/cart/CartSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
+import {homeUrl} from '../screens/Urls';
+import Toast from 'react-native-toast-message';
 
 const DetailScreen = ({ route, navigation }) => {
   const dispatch = useDispatch();
-  const homeUrl = "http://10.120.140.27/fyp/public/storage";
   const product = route.params.product;
   // console.log(product);
   return (
@@ -32,6 +31,7 @@ const DetailScreen = ({ route, navigation }) => {
           Details
         </Text>
       </View>
+    <Toast ref={(ref)=>{Toast.setRef(ref)}} style={{top:50,zIndex:4,paddingTop:30}}/>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
@@ -64,8 +64,12 @@ const DetailScreen = ({ route, navigation }) => {
           <View style={{ marginTop: 40, marginBottom: 80 }}>
             <TouchableOpacity
               onPress={() => {
-                // console.log(product)
                 dispatch(addToCart(product));
+                Toast.show({
+                  position:"top",
+                  text1:'Success',
+                  text2:'Product added to cart'
+                })
               }}
               style={{
                 width: "100%",

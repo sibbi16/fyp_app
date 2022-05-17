@@ -14,6 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Products from "../data/Products";
 import { useDispatch, useSelector } from "react-redux";
+import { homeUrl } from '../screens/Urls';
 import {
   increment,
   decrement,
@@ -25,12 +26,11 @@ import { cartTotalPriceSelector } from "../redux/Selector";
 const CartScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
-  console.log(cart);
   const totalPrice = useSelector(cartTotalPriceSelector);
   const CartCard = ({ product }) => {
     return (
       <View style={styles.cartCard}>
-        <Image source={product.image} style={{ height: 80, width: 80 }} />
+        <Image source={{ uri: `${homeUrl}/${product.image.path}` }} style={{ height: 80, width: 80 }} />
         <View
           style={{
             height: 100,
@@ -102,7 +102,7 @@ const CartScreen = ({ navigation }) => {
                 Total Price
               </Text>
               <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                {totalPrice}
+                {totalPrice}/RS
               </Text>
             </View>
             <View style={{ marginHorizontal: 30 }}>
