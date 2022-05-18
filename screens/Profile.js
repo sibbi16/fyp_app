@@ -38,7 +38,7 @@ const Profile = ({ navigation }) => {
       .post(`${BaseUrl}/logout`, {}, { headers: {"Authorization" : `Bearer ${token}`} })
       .then(function (response) {
         console.log(response.data);
-        // navigation.navigate("SignInScreen");
+        navigation.navigate("SignInScreen");
       })
       .catch(function (error) {
         console.log(error.response.data);

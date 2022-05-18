@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
+  Alert
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -13,9 +14,29 @@ import * as Animatable from "react-native-animatable";
 import Toast from "react-native-toast-message";
 import { BaseUrl } from "./Urls";
 import axios from "axios";
+import { clear } from "../redux/cart/CartSlice";
+import { cartTotalPriceSelector } from "../redux/Selector";
+import { useDispatch, useSelector } from "react-redux";
 
 const Checkout = ({ route, navigation }) => {
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+  const totalPrice = useSelector(cartTotalPriceSelector);
+  const mappedCart = cart.map((item) => {
+    return {
+      product_id: item.id,
+      name: item.name,
+      quantity: item.quantity,
+      price: item.price,
+    };
+  });
   const [token, setToken] = useState("");
+
+  const [data, setData] = useState({
+    pickup_person_name: "",
+    pickup_person_phone: "",
+    shipping_address: "",
+  });
   const getData = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
@@ -34,37 +55,66 @@ const Checkout = ({ route, navigation }) => {
   }, []);
 
   function placeOrder() {
-    console.log(token);
     axios
       .post(
         `${BaseUrl}/orders`,
         {
-          pickup_person_name: "sibghat Ullah",
-          pickup_person_phone: "0512761893",
-          shipping_address: "house 7D",
-          total_price: "400",
-          products: [
-            {
-              product_id: "2",
-              name: "Lays",
-              quantity: "2",
-              price: "50",
-            },
-          ],
+          pickup_person_name: data.pickup_person_name,
+          pickup_person_phone: data.shipping_address,
+          shipping_address: data.pickup_person_phone,
+          total_price: JSON.stringify(totalPrice),
+          products: mappedCart,
         },
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then(function (response) {
         // handle success
         console.log(response.data);
+        Alert.alert(
+          "Alert Title",
+          "Your Order is Placed",
+          [
+            {
+              text: "Cancel",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
+            },
+            { text: "OK", onPress: () => {
+            dispatch(clear(cart)),
+            navigation.navigate("Home")
+            }
+           }
+          ]
+        );
+      
+        
+        
       })
       .catch(function (error) {
         // handle error
         console.log(error.response.data);
       });
   }
-  const products = route.params.product;
-  console.log(products);
+  // function
+  const setNameData = (val) => {
+    setData({
+      ...data,
+      pickup_person_name: val,
+    });
+  };
+  const setAddressData = (val) => {
+    setData({
+      ...data,
+      shipping_address: val,
+    });
+  };
+  const setPhoneData = (val) => {
+    setData({
+      ...data,
+      pickup_person_phone: val,
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -84,7 +134,7 @@ const Checkout = ({ route, navigation }) => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             autoCapitalize="none"
-            onChangeText={(val) => setEmailData(val)}
+            onChangeText={(val) => setNameData(val)}
           />
         </View>
         <Text style={styles.text_footer}>Address</Text>
@@ -95,7 +145,7 @@ const Checkout = ({ route, navigation }) => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             autoCapitalize="none"
-            onChangeText={(val) => setEmailData(val)}
+            onChangeText={(val) => setAddressData(val)}
           />
         </View>
         <Text style={styles.text_footer}>Phone</Text>
@@ -106,7 +156,7 @@ const Checkout = ({ route, navigation }) => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             autoCapitalize="none"
-            onChangeText={(val) => setEmailData(val)}
+            onChangeText={(val) => setPhoneData(val)}
           />
         </View>
         <TouchableOpacity

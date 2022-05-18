@@ -21,6 +21,7 @@ const Tab = createBottomTabNavigator();
 const BottomNavigation = () => {
   return (
     <Tab.Navigator
+    initialRouteName="Home"
       screenOptions={{
       tabBarStyle: { height: 55, paddingTop:6 },
         headerShown: false,
@@ -31,6 +32,7 @@ const BottomNavigation = () => {
         },
         showLabel: false,
         activeTintColor: "#A17818",
+      
       }}
     >
       <Tab.Screen

@@ -20,17 +20,17 @@ import { BaseUrl } from "./Urls";
 import { homeUrl } from "./Urls";
 import axios from "axios";
 
-
 const HomeScreen = ({ navigation }) => {
-  React.useEffect(()=>{
+  React.useEffect(() => {
     getCategories();
     getProducts();
-  },[]);
-  const [Categories,setCategories] =React.useState([]); 
-  const [Products,setProducts] =React.useState([]); 
+  }, []);
+  const [Categories, setCategories] = React.useState([]);
+  const [Products, setProducts] = React.useState([]);
   // getting categories
-  function getCategories(){
-      axios.get(`${BaseUrl}/categories`)
+  function getCategories() {
+    axios
+      .get(`${BaseUrl}/categories`)
       .then(function (response) {
         setCategories(response.data.categories);
         // handle success
@@ -38,22 +38,23 @@ const HomeScreen = ({ navigation }) => {
       .catch(function (error) {
         // handle error
         console.log(error.response.data);
-      })
+      });
   }
 
   // getting products
-  function getProducts(){
-    axios.get(`${BaseUrl}/products`)
-    .then(function (response) {
-      // console.log('product',response.data);
-      setProducts(response.data.products)
-      // handle success
-    })
-    .catch(function (error) {
-      // handle error
-      console.log(error.response.data);
-    })
-}
+  function getProducts() {
+    axios
+      .get(`${BaseUrl}/products`)
+      .then(function (response) {
+        // console.log('product',response.data);
+        setProducts(response.data.products);
+        // handle success
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error.response.data);
+      });
+  }
   const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
   const ListCategories = () => {
     return (
@@ -78,8 +79,8 @@ const HomeScreen = ({ navigation }) => {
               ]}
             >
               <View>
-              <Image
-                  source={{uri:`${homeUrl}/${category.image.path}`}}
+                <Image
+                  source={{ uri: `${homeUrl}/${category.image.path}` }}
                   style={{
                     width: 35,
                     height: 35,
@@ -117,7 +118,7 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.card}>
           <View style={{ alignItems: "center", top: -40 }}>
             <Image
-              source={{uri:`${homeUrl}/${product.image.path}`}}
+              source={{ uri: `${homeUrl}/${product.image.path}` }}
               style={{ height: 110, width: 110, borderRadius: 50 }}
             />
             <Text
@@ -190,8 +191,8 @@ const HomeScreen = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
         numColumns={2}
         data={Products}
-        keyExtractor={(item)=>item.id}
-        renderItem={({item}) => <Card product={item} />}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <Card product={item} />}
       />
     </SafeAreaView>
   );

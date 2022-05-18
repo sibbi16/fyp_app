@@ -169,7 +169,6 @@ const SignInScreen = ({ navigation }) => {
               Sign Up
             </Text>
           </TouchableOpacity>
-          {/* adding temporary button */}
           <TouchableOpacity
             style={[
               styles.signIn,
@@ -189,10 +188,9 @@ const SignInScreen = ({ navigation }) => {
                 },
               ]}
             >
-              Go to Home page temporary
+              temporary home page
             </Text>
           </TouchableOpacity>
-          {/* button end here it must be removed */}
         </View>
       </Animatable.View>
     </View>
