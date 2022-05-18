@@ -35,13 +35,7 @@ const Profile = ({ navigation }) => {
   const logout = () => {
     console.log(typeof token, token);
     axios
-      .post(`${BaseUrl}/logout`, {
-        // headers: { Authorization: `Bearer ${token}` },
-        headers: {
-          "Content-Type": "application/json",
-          "X-Auth-Token": `${token}`,
-        },
-      })
+      .post(`${BaseUrl}/logout`, {}, { headers: {"Authorization" : `Bearer ${token}`} })
       .then(function (response) {
         console.log(response.data);
         // navigation.navigate("SignInScreen");

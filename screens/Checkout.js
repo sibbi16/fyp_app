@@ -1,19 +1,70 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
   TextInput,
-  ScrollView,
-  FlatList,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Animatable from "react-native-animatable";
 import Toast from "react-native-toast-message";
+import { BaseUrl } from "./Urls";
+import axios from "axios";
 
-const Checkout = ({ navigation }) => {
+const Checkout = ({ route, navigation }) => {
+  const [token, setToken] = useState("");
+  const getData = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (token !== null) {
+        // value previously stored
+        setToken(token);
+      }
+    } catch (e) {
+      // error reading value
+      console.log("error", e);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  function placeOrder() {
+    console.log(token);
+    axios
+      .post(
+        `${BaseUrl}/orders`,
+        {
+          pickup_person_name: "sibghat Ullah",
+          pickup_person_phone: "0512761893",
+          shipping_address: "house 7D",
+          total_price: "400",
+          products: [
+            {
+              product_id: "2",
+              name: "Lays",
+              quantity: "2",
+              price: "50",
+            },
+          ],
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      .then(function (response) {
+        // handle success
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error.response.data);
+      });
+  }
+  const products = route.params.product;
+  console.log(products);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -59,14 +110,7 @@ const Checkout = ({ navigation }) => {
           />
         </View>
         <TouchableOpacity
-          onPress={() => {
-            Toast.show({
-              position: "top",
-              text1: "Success",
-              text2: "Order has been Placed",
-            });
-            navigation.navigate('HomeScreen')
-          }}
+          onPress={placeOrder}
           style={[
             styles.signIn,
             {

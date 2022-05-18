@@ -58,7 +58,7 @@ const SignInScreen = ({ navigation }) => {
   // adding fun
   const storeData = async (token) => {
     try {
-      const jsonValue = JSON.stringify(token)
+      const jsonValue = token
       await AsyncStorage.setItem('token', jsonValue)
     } catch (e) {
       console.log(e);

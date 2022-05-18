@@ -12,7 +12,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Products from "../data/Products";
+// import Products from "../data/Products";
 import { useDispatch, useSelector } from "react-redux";
 import { homeUrl } from "../screens/Urls";
 import {
@@ -70,7 +70,7 @@ const CartScreen = ({ navigation }) => {
               <Ionicons name="add-outline" size={25} color="white" />
             </TouchableOpacity>
           </View>
-          <View style={{top:-20,right:-20,position:"absolute"}}>
+          <View style={{ top: -20, right: -20, position: "absolute" }}>
             <TouchableOpacity
               style={{}}
               onPress={() => {
@@ -120,7 +120,9 @@ const CartScreen = ({ navigation }) => {
             </View>
             <View style={{ marginHorizontal: 30 }}>
               <TouchableOpacity
-                onPress={() => navigation.navigate("Checkout")}
+                onPress={() =>
+                  navigation.navigate("Checkout", { product: cart })
+                }
                 style={{
                   width: "100%",
                   height: 50,
